@@ -1,0 +1,93 @@
+# 训练配置
+train:
+  model: yolov8n-seg.pt  # 模型选择: yolov8n/s/m/l/x-seg.pt
+  data: crack-seg/data.yaml
+  epochs: 100
+  batch: 16
+  imgsz: 640
+  device: ''  # 留空自动选择, 或指定 'cuda' 或 'cpu'
+  workers: 4
+  project: runs/segment
+  name: crack_seg
+  patience: 20
+  save: true
+  plots: true
+  val: true
+
+  # 优化器设置
+  optimizer: auto  # auto, SGD, Adam, AdamW
+  lr0: 0.01  # 初始学习率
+  lrf: 0.01  # 最终学习率 (lr0 * lrf)
+  momentum: 0.937
+  weight_decay: 0.0005
+
+  # 数据增强
+  augmentation:
+    hsv_h: 0.015
+    hsv_s: 0.7
+    hsv_v: 0.4
+    degrees: 0.0
+    translate: 0.1
+    scale: 0.5
+    shear: 0.0
+    perspective: 0.0
+    flipud: 0.0
+    fliplr: 0.5
+    mosaic: 1.0
+    mixup: 0.0
+    copy_paste: 0.0
+
+# 预测配置
+predict:
+  conf: 0.25  # 置信度阈值
+  iou: 0.7    # NMS IOU阈值
+  max_det: 300  # 最大检测数量
+  save: true
+  save_txt: false
+  save_conf: false
+  save_crop: false
+  show_labels: true
+  show_conf: true
+  line_width: 2
+
+# 导出配置
+export:
+  format: onnx  # onnx, torchscript, tensorflow, coreml, engine
+  imgsz: 640
+  half: false  # FP16量化
+  int8: false  # INT8量化
+  dynamic: true  # 动态输入尺寸
+  simplify: true  # 简化ONNX模型
+
+# 批量处理配置
+batch:
+  conf_threshold: 0.25
+  save_images: true
+  output_dir: batch_results
+
+  # 严重程度阈值
+  severity:
+    severe: 5.0    # 裂缝面积占比 > 5%
+    moderate: 2.0  # 2% < 裂缝面积占比 <= 5%
+    mild: 0.0      # 0% < 裂缝面积占比 <= 2%
+
+# Web界面配置
+web:
+  server_name: 0.0.0.0
+  server_port: 7860
+  share: false
+  inbrowser: true
+
+# 实时检测配置
+realtime:
+  camera_id: 0
+  conf_threshold: 0.25
+  show_fps: true
+  save_video: false
+
+# 路径配置
+paths:
+  dataset: crack-seg
+  models: runs/segment
+  results: results
+  exports: exports

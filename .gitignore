@@ -1,0 +1,88 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# Training outputs
+runs/
+wandb/
+outputs/
+checkpoints/
+
+# Results & exports
+results/
+batch_results/
+comparison_results/
+analysis_results/
+visualization_results/
+exports/
+
+# Logs
+logs/
+*.log
+
+# Archives (数据集压缩包)
+*.rar
+*.zip
+*.7z
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# System files
+Thumbs.db
+
+# Cache
+.cache/
+*.cache
+
+# Generated reports
+*.html
+*.csv
+
+# Claude AI配置
+.claude/
+
+# Screenshots / results images (预测结果图不提交)
+*.png
+*.jpg
+*.jpeg
+!docs/*.png
+!docs/*.jpg
