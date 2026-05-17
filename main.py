@@ -5,6 +5,51 @@
 import os
 import sys
 
+# ═══ CUDA 环境检查 ═══
+_VENV_PYTHON = r'E:\torch\.venv\Scripts\python.exe'
+
+
+def _check_cuda():
+    """检查 PyTorch 是否有 CUDA；若无则自动切到 venv Python 重启动"""
+    try:
+        import torch
+        if torch.cuda.is_available():
+            return
+    except ImportError:
+        print("\n" + "!" * 60)
+        print("  错误: 未检测到 PyTorch，请先安装依赖")
+        print("!" * 60 + "\n")
+        sys.exit(1)
+
+    # CUDA 不可用，尝试切到 venv Python
+    this_py = sys.executable.lower().replace('\\', '/')
+    venv_py = _VENV_PYTHON.lower().replace('\\', '/')
+    if this_py == venv_py:
+        print("\n" + "!" * 60)
+        print("  警告: venv 环境中的 PyTorch 没有 CUDA 支持")
+        print("  请在 venv 中重装 CUDA 版 PyTorch")
+        print("!" * 60 + "\n")
+        return
+
+    print(f"\n当前 Python 无 CUDA: {sys.executable}")
+    print(f"自动切换到 venv Python 重新启动...\n")
+    os.execv(_VENV_PYTHON, [_VENV_PYTHON] + sys.argv)
+
+
+_check_cuda()
+
+
+def run_script(script_name):
+    """运行指定脚本（使用当前 Python 解释器）"""
+    if not os.path.exists(script_name):
+        print(f"错误: 脚本不存在 - {script_name}")
+        return False
+
+    print(f"\n启动: {script_name}")
+    print("-" * 60)
+    os.system(f'"{sys.executable}" {script_name}')
+    return True
+
 def print_menu():
     """打印主菜单"""
     print("\n" + "="*60)
@@ -32,17 +77,6 @@ def print_menu():
     print("\n【其他】")
     print("  0. 退出")
     print("="*60)
-
-def run_script(script_name):
-    """运行指定脚本"""
-    if not os.path.exists(script_name):
-        print(f"错误: 脚本不存在 - {script_name}")
-        return False
-
-    print(f"\n启动: {script_name}")
-    print("-"*60)
-    os.system(f"python {script_name}")
-    return True
 
 def main():
     """主函数"""

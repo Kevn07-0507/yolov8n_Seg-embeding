@@ -100,6 +100,7 @@ class BatchProcessor:
         for ext in image_extensions:
             image_files.extend(Path(input_dir).rglob(f'*{ext}'))
             image_files.extend(Path(input_dir).rglob(f'*{ext.upper()}'))
+        image_files = list(set(image_files))  # Windows大小写不敏感去重
 
         if not image_files:
             print(f"在 {input_dir} 中未找到图片文件")

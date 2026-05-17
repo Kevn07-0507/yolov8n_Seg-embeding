@@ -93,10 +93,10 @@ def get_image_files(directory, extensions=['.jpg', '.jpeg', '.png', '.bmp']):
     Returns:
         图片文件路径列表
     """
-    image_files = []
+    image_files = set()
     for ext in extensions:
-        image_files.extend(Path(directory).rglob(f'*{ext}'))
-        image_files.extend(Path(directory).rglob(f'*{ext.upper()}'))
+        image_files.update(Path(directory).rglob(f'*{ext}'))
+        image_files.update(Path(directory).rglob(f'*{ext.upper()}'))
     return [str(f) for f in image_files]
 
 def resize_image(image, target_size, keep_ratio=True):
