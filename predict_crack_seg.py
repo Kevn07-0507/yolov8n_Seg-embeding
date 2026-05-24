@@ -26,7 +26,7 @@ def predict_single_image(model, image_path, save_dir='runs/predict'):
         project=save_dir,
         name='crack_detection',
         conf=0.25,  # 置信度阈值
-        iou=0.7,    # NMS IOU阈值
+        iou=0.5,    # NMS IOU阈值
     )
 
     return results
@@ -117,8 +117,9 @@ def main():
     print("3. 视频预测")
     print("4. 模型评估")
     print("5. 测试集预测")
+    print("6. TTA+CRF 增强预测")
 
-    choice = input("\n请输入选项 (1-5): ").strip()
+    choice = input("\n请输入选项 (1-6): ").strip()
 
     if choice == '1':
         # 单张图片预测
@@ -196,6 +197,33 @@ def main():
             print(f"  共处理图片: {len(results)} 张")
         else:
             print(f"测试集目录不存在: {test_dir}")
+
+    elif choice == '6':
+        # TTA + CRF 增强预测
+        from postprocess import detect_with_postprocess
+        image_path = input("请输入图片路径: ").strip().strip('"').strip("'")
+        image_path = os.path.normpath(image_path)
+        if os.path.exists(image_path):
+            print("推理中 (TTA + CRF, 比普通推理慢 3~6 倍)...")
+            results, refined, annotated = detect_with_postprocess(
+                model, image_path, use_tta=True, use_crf=True
+            )
+            r = results[0]
+            n = len(r.boxes) if r.boxes else 0
+            print(f"检测到 {n} 条裂缝")
+            # 显示对比
+            orig = cv2.cvtColor(cv2.imread(image_path), cv2.COLOR_BGR2RGB)
+            fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+            axes[0].imshow(orig)
+            axes[0].set_title('原始图像')
+            axes[0].axis('off')
+            axes[1].imshow(annotated)
+            axes[1].set_title(f'TTA+CRF ({n} 条裂缝)')
+            axes[1].axis('off')
+            plt.tight_layout()
+            plt.show()
+        else:
+            print(f"图片不存在: {image_path}")
 
     else:
         print("无效的选项!")

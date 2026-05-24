@@ -5,6 +5,9 @@
 import os
 import sys
 
+# ═══ 系统环境限制（防 OOM） ═══
+os.environ['OMP_NUM_THREADS'] = '2'
+
 # ═══ CUDA 环境检查 ═══
 _VENV_PYTHON = r'E:\torch\.venv\Scripts\python.exe'
 
@@ -74,6 +77,7 @@ def print_menu():
     print("\n【高级功能】")
     print(" 11. 性能基准测试")
     print(" 12. 数据增强预览")
+    print(" 13. CRF后处理效果评估")
     print("\n【其他】")
     print("  0. 退出")
     print("="*60)
@@ -128,7 +132,7 @@ def main():
                     from ultralytics import YOLO
                     model = YOLO(model_path)
                     print("\n正在评估模型...")
-                    metrics = model.val(data='crack-seg/data.yaml')
+                    metrics = model.val(data='crack-seg/data.yaml', workers=1)
                     print("\n评估完成!")
                 else:
                     print(f"模型不存在: {model_path}")
@@ -141,6 +145,9 @@ def main():
 
             elif choice == '12':
                 run_script("preview_augmentation.py")
+
+            elif choice == '13':
+                run_script("eval_crf.py")
 
             else:
                 print("\n无效的选项，请重新选择")

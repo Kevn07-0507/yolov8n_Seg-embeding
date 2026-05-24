@@ -10,6 +10,15 @@ from pathlib import Path
 import pandas as pd
 import font_config  # 解决中文显示异常问题
 
+
+def _export_data_table(df, results_dir):
+    """导出训练全量数据表格（所有 available 列）"""
+    output_path = os.path.join(results_dir, 'training_data_table.csv')
+    df.to_csv(output_path, index=False, encoding='utf-8-sig')
+    print(f"数据表格已导出: {output_path}")
+    print(f"  共 {len(df)} 行 × {len(df.columns)} 列")
+
+
 def visualize_training_results(results_dir='runs/segment/crack_seg'):
     """可视化训练结果"""
     print(f"可视化训练结果: {results_dir}")
@@ -26,6 +35,9 @@ def visualize_training_results(results_dir='runs/segment/crack_seg'):
 
     df = pd.read_csv(csv_path)
     df.columns = df.columns.str.strip()  # 去除列名空格
+
+    # ═══ 导出数据表格 ═══
+    _export_data_table(df, results_dir)
 
     # 创建图表
     fig, axes = plt.subplots(2, 3, figsize=(18, 10))
