@@ -25,7 +25,7 @@ def predict_single_image(model, image_path, save_dir='runs/predict'):
         save_conf=True,
         project=save_dir,
         name='crack_detection',
-        conf=0.25,  # 置信度阈值
+        conf=0.15,  # 置信度阈值
         iou=0.5,    # NMS IOU阈值
     )
 
@@ -98,7 +98,7 @@ def evaluate_model(model, data_yaml='crack-seg/data.yaml'):
     return metrics
 
 def main():
-    model_path = 'E:/University_files/embed/runs/segment/crack_seg4/weights/best.pt'
+    model_path = 'E:/University_files/embed/runs/segment/crack_seg_finetune2/weights/last.pt'
 
     if not os.path.exists(model_path):
         print(f"未找到训练好的模型: {model_path}")

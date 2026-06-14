@@ -80,6 +80,19 @@ Thumbs.db
 # Claude AI配置
 .claude/
 
+# 3090服务器配置
+3090/
+
+# 大模型文件 (不提交)
+yolo11m-seg.pt
+yolov8s-seg.pt
+
+# PPT生成脚本 (不提交)
+ppt_*.py
+
+# 标注原始图片目录
+lizi/
+
 # Screenshots / results images (预测结果图不提交)
 *.png
 *.jpg

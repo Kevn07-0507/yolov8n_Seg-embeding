@@ -67,17 +67,17 @@ def print_menu():
     print("\n【模型推理】")
     print("  5. 单张图片预测")
     print("  6. 批量处理 - 生成报告")
-
     print("  7. 实时检测 - 摄像头/视频")
+    print("  8. 误检过滤预测 (窗框/图案)")
     print("\n【模型优化】")
-    print("  8. 模型导出 - ONNX/TensorRT等")
-    print("  9. 模型评估 - 性能测试")
+    print("  9. 模型导出 - ONNX/TensorRT等")
+    print(" 10. 模型评估 - 性能测试")
     print("\n【Web界面】")
-    print(" 10. 启动Web界面 - Gradio")
+    print(" 11. 启动Web界面 - Gradio")
     print("\n【高级功能】")
-    print(" 11. 性能基准测试")
-    print(" 12. 数据增强预览")
-    print(" 13. CRF后处理效果评估")
+    print(" 12. 性能基准测试")
+    print(" 13. 数据增强预览")
+    print(" 14. CRF后处理效果评估")
     print("\n【其他】")
     print("  0. 退出")
     print("="*60)
@@ -88,7 +88,7 @@ def main():
         print_menu()
 
         try:
-            choice = input("\n请选择功能 (0-10): ").strip()
+            choice = input("\n请选择功能 (0-14): ").strip()
 
             if choice == '0':
                 print("\n感谢使用！再见！")
@@ -120,9 +120,12 @@ def main():
                 run_script("realtime_detect.py")
 
             elif choice == '8':
-                run_script("export_model.py")
+                run_script("filter_fp.py")
 
             elif choice == '9':
+                run_script("export_model.py")
+
+            elif choice == '10':
                 print("\n模型评估")
                 model_path = input("请输入模型路径 (默认: runs/segment/crack_seg/weights/best.pt): ").strip()
                 if not model_path:
@@ -137,16 +140,16 @@ def main():
                 else:
                     print(f"模型不存在: {model_path}")
 
-            elif choice == '10':
+            elif choice == '11':
                 run_script("web_app.py")
 
-            elif choice == '11':
+            elif choice == '12':
                 run_script("benchmark.py")
 
-            elif choice == '12':
+            elif choice == '13':
                 run_script("preview_augmentation.py")
 
-            elif choice == '13':
+            elif choice == '14':
                 run_script("eval_crf.py")
 
             else:
